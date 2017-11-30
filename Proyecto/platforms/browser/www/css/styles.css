@@ -40,7 +40,7 @@ h1{
   text-transform: uppercase;
  }
 
-input[type="submit"] {
+button {
   /*@extend .transition;*/
   margin-top: 15px;
   background-color: white;
