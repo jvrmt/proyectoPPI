@@ -31,25 +31,12 @@
 	<link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
 	<link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
 
-	<link rel="stylesheet" href="css/styles.css">
+<!--	<link rel="stylesheet" href="css/styles.css">-->
 	<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-    <script type="text/javascript" >
-        function agregarBotones()
-        {
-            var padre=document.getElementById("probar");
-            for(i=0;i<10;i++)
-            {
-                padre.innerHTML=padre.innerHTML + "<p><a href='maestros_asistencia.html' class='button button-round' >NRC Nombre Materia</a></p>";
-            }
-        }
-        function cambiar()
-        {
-            document.getElementById("probar").innerHTML="Cambiado";
-        }
-    </script>
+
 </head>
 
-<body onload="agregarBotones()">
+<body onload="cargarMaterias()">
 	<!-- Status bar overlay for full screen mode (PhoneGap) -->
 	<div class="statusbar-overlay"></div>
 
@@ -84,20 +71,15 @@
 			<!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
 			<div class="pages navbar-through toolbar-through">
 				<!-- Page, "data-page" contains page name -->
-				<div data-page="index" class="page">
+				<div data-page="maestros_materias" class="page">
 					<!-- Scrollable page content -->
 					<div class="page-content">
 						<div class="content-block">
-                            <center>
-                                <div id="probar"></div>
-                            </center>
+                            <div id="listaMaterias"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-
 
 			<!-- Bottom Toolbar-->
 			<div class="toolbar">
@@ -109,12 +91,18 @@
 			</div>
 		</div>
 	</div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/charts.js"></script>
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="cordova.js"></script>
 	<script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
 	<script type="text/javascript" src="js/my-app.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/asistencias.js"></script>
 
+    <script>
+        
+    </script>
 </body>
 
 </html>
