@@ -1,4 +1,4 @@
-function verChart() 
+function verChart(asistencias,faltas) 
 {
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -6,8 +6,8 @@ function verChart()
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
             ['Tipo', 'Cantidad'],
-            ['Asistencias',     11],
-            ['Faltas',      2]
+            ['Asistencias',     asistencias],
+            ['Faltas',      faltas]
         ]);
         var options = {
             title: "Promedio de asistencias"

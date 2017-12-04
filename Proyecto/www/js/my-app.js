@@ -66,68 +66,58 @@ function cargarMaterias()//Se usa en maestros_materias
             }
 		}
 	});
-    /*
-    var padre=document.getElementById("listaMaterias");
-    padre.innerHTML="";
-    for(i=1;i<10;i++)
-    {
-        var contenedorBotones = document.createElement("p");
-        contenedorBotones.setAttribute("class","buttons-row");
-        var boton1=document.createElement("a");
-        boton1.setAttribute("href","maestros_asistencia.html");
-        boton1.setAttribute("class","button button-fill color-green");
-        boton1.setAttribute("onclick","onclick=guardarMateria('"+i+"','Materia "+i+"')");
-        var contenido1=document.createTextNode("Tomar asistencia")
-        boton1.appendChild(contenido1);
-        var boton2=document.createElement("a");
-        boton2.setAttribute("href","maestros_promedio_asistencias.html");
-        boton2.setAttribute("class","button button-fill color-blue");
-        boton2.setAttribute("onclick","onclick=guardarMateria('"+i+"','Materia "+i+"')");
-        var contenido2=document.createTextNode("Ver asistencias");
-        boton2.appendChild(contenido2);
-        var datosMateria=document.createTextNode("Nombre de materia "+i);
-        contenedorBotones.appendChild(boton1);
-        contenedorBotones.appendChild(boton2);
-        var divisionTitulo=document.createElement("p");
-        divisionTitulo.setAttribute("class","content-block-title");
-        divisionTitulo.appendChild(datosMateria);
-        padre.appendChild(divisionTitulo);
-        padre.appendChild(contenedorBotones);   
-    }
-    */
 }
-function cargarListaDeAlumnos()
+function cargarListaDeAlumnos()//para maestros_asistencia
 {
     contenedor=document.getElementById("listaDeAlumnos");
     contenedor.innerHTML="";
-    for(i=1;i<5;i++)
-    {
-        var nombreAlumno="Alumno "+i; 
-        var elemento=document.createElement("li");
-        var label=document.createElement("label");
-        label.setAttribute("class","label-checkbox item-content");
-        var input=document.createElement("input");
-        input.setAttribute("type","checkbox");
-        input.setAttribute("name","alumnoEnLista");
-        input.setAttribute("value",nombreAlumno);
-        var div=document.createElement("div");
-        div.setAttribute("class","item-media");
-        var icono=document.createElement("i");
-        icono.setAttribute("class","icon icon-form-checkbox");
-        div.appendChild(icono);
-        var div2=document.createElement("div");
-        div2.setAttribute("class","item-inner");
-        var div3=document.createElement("div");
-        div3.setAttribute("class","item-title");
-        var valor=document.createTextNode(nombreAlumno);
-        div3.appendChild(valor);
-        div2.appendChild(div3);
-        label.appendChild(input);
-        label.appendChild(div);
-        label.appendChild(div2);
-        elemento.appendChild(label);
-        contenedor.appendChild(elemento);   
-    }
+    var nrc=localStorage.getItem("nrc");
+    //Peticion al servidor
+    $.post("https://proyectoppi.000webhostapp.com/proyecto/getListaSeccionAlumnos.php", {nrc: nrc}, function(result,status){
+		if(result == "0"){
+                
+        }	//No carga nada
+		else {
+			//Decodificar json
+            var json=JSON.parse(result);
+            for(var clave in json)
+            {
+                if(json.hasOwnProperty(clave))
+                {
+                   for(i=0;i<json[clave].length;i++)
+                    {
+                        var codigoAlumno=json[clave][i]["codigoalumno"];
+                        var nombreAlumno=json[clave][i]["nombrealumno"];
+                        var elemento=document.createElement("li");
+                        var label=document.createElement("label");
+                        label.setAttribute("class","label-checkbox item-content");
+                        var input=document.createElement("input");
+                        input.setAttribute("type","checkbox");
+                        input.setAttribute("name","alumnoEnLista");
+                        input.setAttribute("value",codigoAlumno);
+                        var div=document.createElement("div");
+                        div.setAttribute("class","item-media");
+                        var icono=document.createElement("i");
+                        icono.setAttribute("class","icon icon-form-checkbox");
+                        div.appendChild(icono);
+                        var div2=document.createElement("div");
+                        div2.setAttribute("class","item-inner");
+                        var div3=document.createElement("div");
+                        div3.setAttribute("class","item-title");
+                        var valor=document.createTextNode(nombreAlumno);
+                        div3.appendChild(valor);
+                        div2.appendChild(div3);
+                        label.appendChild(input);
+                        label.appendChild(div);
+                        label.appendChild(div2);
+                        elemento.appendChild(label);
+                        contenedor.appendChild(elemento); 
+                    }
+
+                }
+            }
+		}
+	});
 }
 function guardarMateria(nrc,nombreMateria)
 {
@@ -137,11 +127,30 @@ function guardarMateria(nrc,nombreMateria)
 
 function cargarAlumnosEnSelector()
 {
+    var nrc=localStorage.getItem("nrc");
+    //Peticion al servidor
     var alumnos=[];
-    for(i=0;i<6;i++)
-    {
-        alumnos[i]="Alumno "+(i+1);
-    }
+    var asistencias;
+    var faltas;
+    var json;
+    
+    $.post("https://proyectoppi.000webhostapp.com/proyecto/getListaSeccionAlumnos.php", {nrc: nrc}, function(result,status){
+		if(result == "0"){        
+        }
+        else{
+            json=JSON.parse(result);
+            for(var clave in json)
+            {
+                if(json.hasOwnProperty(clave))
+                {
+                   for(i=0;i<json[clave].length;i++)
+                    {
+                        alumnos[i]=json[clave][i]["nombrealumno"];
+                    }
+                }
+            }
+        }
+    });
     
     var miPicker = myApp.picker({
     input: '#selectorAlumnos',
@@ -154,10 +163,22 @@ function cargarAlumnosEnSelector()
     onClose: function(){
         //document.getElementById("seleccionado").innerHTML=miPicker.value[0];  
         //Aquí debería actualizar el chart
+        for(var clave in json)
+            {
+                if(json.hasOwnProperty(clave))
+                {
+                   for(i=0;i<json[clave].length;i++)
+                    {
+                        if(miPicker.value==json[clave][i]["nombrealumno"]){
+                            asistencias=json[clave][i]["asistencias"];
+                            faltas=json[clave][i]["faltas"];
+                        }
+                    }
+                }
+            }
+        verChart(parseInt(asistencias),parseInt(faltas));
     }
-});
-
-    
+}); 
 }
 
 myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
@@ -165,7 +186,8 @@ myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
     var calendario=myApp.calendar({
         input:"#fechaDeAsistencia",
         dateFormat:"dd-mm-yyyy",
-        multiple:false
+        multiple:false,
+        value:[new Date()]
     });
     document.getElementById("materia").innerHTML="Nombre: "+localStorage.getItem("materia");
     document.getElementById("nrc").innerHTML="NRC: "+localStorage.getItem("nrc");
@@ -185,7 +207,6 @@ myApp.onPageInit('maestros_promedio_asistencias',function(page){
     document.getElementById("materia").innerHTML="Nombre: "+localStorage.getItem("materia");
     document.getElementById("nrc").innerHTML="NRC: "+localStorage.getItem("nrc");
     cargarAlumnosEnSelector();
-    verChart();
 })
 
 $$(document).on('pageInit', function (e) {
