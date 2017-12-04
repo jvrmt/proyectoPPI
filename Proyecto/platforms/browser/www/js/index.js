@@ -10,11 +10,11 @@ function enviar() {
 			var tipo = result.substr(0,1);
 			if (tipo == "A") { //Alumno
 				//alert("Fucking alumno");
+                localStorage.setItem("codigo",usuario);
 				$(location).attr("href","inicioAlumno.html");
-                localStorage.setItem("codigo",usuario);
 			} if(tipo == "T"){// Trabajador
-                $(location).attr("href","maestros_materias.html");
                 localStorage.setItem("codigo",usuario);
+                $(location).attr("href","maestros_materias.html");
             }
 		}
 	});

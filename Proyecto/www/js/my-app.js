@@ -11,6 +11,7 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     //console.log("Device is ready!");
@@ -35,24 +36,23 @@ function cargarMaterias()//Se usa en maestros_materias
                 {
                    for(i=0;i<json[clave].length;i++)
                     {
-                      //alert("NRC: "+json[clave][i]["nrc"]+"Materia: "+json[clave][i]["nombremateria"]);
-                        var nrc=json[clave][i]["nrc"];
-                        var materia=json[clave][i]["nombremateria"];
+                        var carganrc=json[clave][i]["nrc"];
+                        var cargamateria=json[clave][i]["nombremateria"];
                         var contenedorBotones = document.createElement("p");
                         contenedorBotones.setAttribute("class","buttons-row");
                         var boton1=document.createElement("a");
                         boton1.setAttribute("href","maestros_asistencia.html");
                         boton1.setAttribute("class","button button-fill color-green");
-                        boton1.setAttribute("onclick","onclick=guardarMateria('"+nrc+"','"+materia+"')");
+                        boton1.setAttribute("onclick","guardarMateria('"+carganrc+"','"+cargamateria+"')");
                         var contenido1=document.createTextNode("Tomar asistencia")
                         boton1.appendChild(contenido1);
                         var boton2=document.createElement("a");
                         boton2.setAttribute("href","maestros_promedio_asistencias.html");
                         boton2.setAttribute("class","button button-fill color-blue");
-                        boton2.setAttribute("onclick","onclick=guardarMateria('"+nrc+"','"+materia+"')");
+                        boton2.setAttribute("onclick","guardarMateria('"+carganrc+"','"+cargamateria+"')");
                         var contenido2=document.createTextNode("Ver asistencias");
                         boton2.appendChild(contenido2);
-                        var datosMateria=document.createTextNode(nrc+" / "+materia);
+                        var datosMateria=document.createTextNode(carganrc+" / "+cargamateria);
                         contenedorBotones.appendChild(boton1);
                         contenedorBotones.appendChild(boton2);
                         var divisionTitulo=document.createElement("p");
@@ -123,6 +123,7 @@ function guardarMateria(nrc,nombreMateria)
 {
     localStorage.setItem("nrc",nrc);
     localStorage.setItem("materia",nombreMateria);
+    return true;
 }
 
 function cargarAlumnosEnSelector()
@@ -195,7 +196,25 @@ myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
 })
 
 myApp.onPageInit("alta_materia",function(page){
+    guardarDatosMateria("-","-","-","-","-","-","-");
+    cargarDatosMateriaARegistrar();
+})
+
+myApp.onPageInit("buscar_materia",function(page){
     cargarSecciones();
+    var mySearchbar = myApp.searchbar('.searchbar', {
+    searchList: '.list-block-search',
+    searchIn: '.item-title'
+    }); 
+})
+
+myApp.onPageBack("buscar_materia",function(page){
+    getMateriaSeleccionada();
+    
+})
+myApp.onPageAfterBack("buscar_materia",function(page){
+    cargarDatosMateriaARegistrar();
+    mainView.router.loadPage("alta_materia.html");
 })
 
 myApp.onPageInit('maestros_materias',function(page){
