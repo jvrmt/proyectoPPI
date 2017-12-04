@@ -11,7 +11,11 @@ function enviar() {
 			if (tipo == "A") { //Alumno
 				//alert("Fucking alumno");
 				$(location).attr("href","inicioAlumno.html");
-			} if(tipo == "T"){} // Trabajador
+                localStorage.setItem("codigo",usuario);
+			} if(tipo == "T"){// Trabajador
+                $(location).attr("href","maestros_materias.html");
+                localStorage.setItem("codigo",usuario);
+            }
 		}
 	});
 }
@@ -19,6 +23,10 @@ function enviar() {
 function error(){
 	$("#lblError").fadeIn(2000);
 	$("#lblError").fadeOut(2000);
+    //Las siguientes 2 lineas son para probar la interfaz de maestro
+    $(location).attr("href","maestros_materias.html");
+    localStorage.setItem("codigo","2027402");
+
 }
 
 $(document).keypress(function(e){

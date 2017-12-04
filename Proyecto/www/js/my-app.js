@@ -17,8 +17,56 @@ $$(document).on('deviceready', function() {
 });
 
 
-function cargarMaterias()
+function cargarMaterias()//Se usa en maestros_materias
 {
+    var padre=document.getElementById("listaMaterias");
+    padre.innerHTML="";
+    var usuario=localStorage.getItem("codigo");
+    $.post("https://proyectoppi.000webhostapp.com/proyecto/getListaSecciones.php", {codigo: usuario}, function(result,status){
+		if(result == "0"){
+                
+        }	//No carga nada
+		else {
+			//Decodificar json
+            var json=JSON.parse(result);
+            for(var clave in json)
+            {
+                if(json.hasOwnProperty(clave))
+                {
+                   for(i=0;i<json[clave].length;i++)
+                    {
+                      //alert("NRC: "+json[clave][i]["nrc"]+"Materia: "+json[clave][i]["nombremateria"]);
+                        var nrc=json[clave][i]["nrc"];
+                        var materia=json[clave][i]["nombremateria"];
+                        var contenedorBotones = document.createElement("p");
+                        contenedorBotones.setAttribute("class","buttons-row");
+                        var boton1=document.createElement("a");
+                        boton1.setAttribute("href","maestros_asistencia.html");
+                        boton1.setAttribute("class","button button-fill color-green");
+                        boton1.setAttribute("onclick","onclick=guardarMateria('"+nrc+"','"+materia+"')");
+                        var contenido1=document.createTextNode("Tomar asistencia")
+                        boton1.appendChild(contenido1);
+                        var boton2=document.createElement("a");
+                        boton2.setAttribute("href","maestros_promedio_asistencias.html");
+                        boton2.setAttribute("class","button button-fill color-blue");
+                        boton2.setAttribute("onclick","onclick=guardarMateria('"+nrc+"','"+materia+"')");
+                        var contenido2=document.createTextNode("Ver asistencias");
+                        boton2.appendChild(contenido2);
+                        var datosMateria=document.createTextNode(nrc+" / "+materia);
+                        contenedorBotones.appendChild(boton1);
+                        contenedorBotones.appendChild(boton2);
+                        var divisionTitulo=document.createElement("p");
+                        divisionTitulo.setAttribute("class","content-block-title");
+                        divisionTitulo.appendChild(datosMateria);
+                        padre.appendChild(divisionTitulo);
+                        padre.appendChild(contenedorBotones); 
+                    }
+
+                }
+            }
+		}
+	});
+    /*
     var padre=document.getElementById("listaMaterias");
     padre.innerHTML="";
     for(i=1;i<10;i++)
@@ -37,12 +85,16 @@ function cargarMaterias()
         boton2.setAttribute("onclick","onclick=guardarMateria('"+i+"','Materia "+i+"')");
         var contenido2=document.createTextNode("Ver asistencias");
         boton2.appendChild(contenido2);
-        var datosMateria=document.createTextNode("Materia "+i);
+        var datosMateria=document.createTextNode("Nombre de materia "+i);
         contenedorBotones.appendChild(boton1);
         contenedorBotones.appendChild(boton2);
-        padre.appendChild(datosMateria);
+        var divisionTitulo=document.createElement("p");
+        divisionTitulo.setAttribute("class","content-block-title");
+        divisionTitulo.appendChild(datosMateria);
+        padre.appendChild(divisionTitulo);
         padre.appendChild(contenedorBotones);   
     }
+    */
 }
 function cargarListaDeAlumnos()
 {
@@ -115,10 +167,13 @@ myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
         dateFormat:"dd-mm-yyyy",
         multiple:false
     });
-    
+    document.getElementById("materia").innerHTML="Nombre: "+localStorage.getItem("materia");
     document.getElementById("nrc").innerHTML="NRC: "+localStorage.getItem("nrc");
-    document.getElementById("materia").innerHTML="Materia: "+localStorage.getItem("materia");
     cargarListaDeAlumnos();
+})
+
+myApp.onPageInit("alta_materia",function(page){
+    cargarSecciones();
 })
 
 myApp.onPageInit('maestros_materias',function(page){
@@ -127,7 +182,8 @@ myApp.onPageInit('maestros_materias',function(page){
 })
 
 myApp.onPageInit('maestros_promedio_asistencias',function(page){
-    document.getElementById("materia").innerHTML="Materia: "+localStorage.getItem("materia");
+    document.getElementById("materia").innerHTML="Nombre: "+localStorage.getItem("materia");
+    document.getElementById("nrc").innerHTML="NRC: "+localStorage.getItem("nrc");
     cargarAlumnosEnSelector();
     verChart();
 })

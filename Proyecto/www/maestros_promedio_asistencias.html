@@ -16,24 +16,31 @@
     <div data-page="maestros_promedio_asistencias" class="page">
         <div class="page-content">
             <div class="content-block">
-                <p id="materia">Materia</p>
-                <p>Alumno:</p>
+                
+                <div class="content-block-title">Datos de la materia</div>
+                <!-- Inset content block -->
+                <div class="content-block inset">
+                    <div class="content-block-inner">
+                        <p id="materia">Materia</p>
+                        <p id="nrc">NRC</p>
+                    </div>
+                </div>
+                
                 <div class="list-block">
                     <ul>
                         <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="Seleccionar..." readonly id="selectorAlumnos">
+                                        <input type="text" placeholder="Selecciona el alumno..." readonly id="selectorAlumnos">
                                     </div>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div id="seleccionado"></div>
-                CHART PROMEDIO DE ASISTENCIAS                
-                <div id="visorChart" style="width: 900px; height: 500px;"></div>
+                <div id="seleccionado"></div>               
+                <div id="visorChart" style="height: 90%;"></div>
             </div>
         </div>
     </div>

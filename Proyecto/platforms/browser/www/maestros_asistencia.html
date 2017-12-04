@@ -16,11 +16,16 @@
     <div data-page="maestros_asistencia" class="page">
         <div class="page-content">
             <div class="content-block">
-                <p>Nombre del maestro</p>
-                <p>Código</p>
-                <p id="materia">Materia</p>
-                <p id="nrc">NRC</p>
-                <p>Fecha</p>
+                
+                <div class="content-block-title">Datos de la materia</div>
+                <!-- Inset content block -->
+                <div class="content-block inset">
+                    <div class="content-block-inner">
+                        <p id="materia">Materia</p>
+                        <p id="nrc">NRC</p>
+                    </div>
+                </div>
+                <div class="content-block-title">Fecha</div>
                 <div class="list-block">
                     <ul>
                         <li>
@@ -34,11 +39,11 @@
                         </li>
                     </ul>
                 </div> 
+                <div class="content-block-title">Alumnos</div>
                 <div class="list-block">
                     <ul id="listaDeAlumnos">
                     </ul>
                 </div>
-                <br>
                 <p><a onclick="getAsistencias()" class='button button-round' id="guardarAsistencia">Guardar</a></p>
             </div>
         </div>
