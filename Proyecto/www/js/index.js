@@ -8,10 +8,23 @@ function enviar() {
 			error();
 		else {
 			var tipo = result.substr(0,1);
+            
 			if (tipo == "A") { //Alumno
 				//alert("Fucking alumno");
-                localStorage.setItem("codigo",usuario);
-				$(location).attr("href","inicioAlumno.html");
+                var informacion = result.split(",");
+                var nombreUsuario=informacion[2];
+                //Guardar en base
+                $.post("https://proyectoppi.000webhostapp.com/proyecto/registrarAlumno.php",{codigo:usuario, nombre:nombreUsuario},function(result,status){
+                   if(result=="guardado" || result=="ya existe") 
+                    {            
+                        localStorage.setItem("codigo",usuario);
+				        $(location).attr("href","inicioAlumno.html");     
+                    }
+                    else
+                    {
+                        alert("Ha ocurrido un error, intentalo más tarde");
+                    }
+                });
 			} if(tipo == "T"){// Trabajador
                 localStorage.setItem("codigo",usuario);
                 $(location).attr("href","maestros_materias.html");
