@@ -106,8 +106,8 @@ function getMateriaSeleccionada()//Evitar pedrilo de nuevo al servidor
 function darDeAlta()
 {
     var nrcAlta=localStorage.getItem("nrcAlta");
-    //var codigoAlumno=localStorage.getItem("codigo");
-    var codigoAlumno="12345";
+    var codigoAlumno=localStorage.getItem("codigo");
+    //var codigoAlumno="12345";
     $.post("https://proyectoppi.000webhostapp.com/proyecto/altaSeccionAlumno.php", {codigoalumno:codigoAlumno,nrc: nrcAlta}, function(result,status){
         if(result == "0"){ 
         }else{

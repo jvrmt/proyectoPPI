@@ -11,8 +11,8 @@ function initMap() {
 function cargarMapa(){
     initMap();
     
-    //var codigoAlumno=localStorage.getItem("codigo");
-    var codigoAlumno="12345";
+    var codigoAlumno=localStorage.getItem("codigo");
+    //var codigoAlumno="12345";
     //Obtener el horario
     $.post("https://proyectoppi.000webhostapp.com/proyecto/getHorarioAlumno.php", {codigo:codigoAlumno}, function(result,status){
             //alert(result);

@@ -17,7 +17,15 @@ $$(document).on('deviceready', function() {
     //console.log("Device is ready!");
 });
 
-
+function cargarBotonSalir(){
+    $$('#botonSalir').on('click', function () {
+    myApp.confirm('¿Estas seguro que deseas salir?', function () {
+        //Proceso de desmatricular
+        localStorage.clear();
+        location.href="index.html";
+    });
+    });
+}
 function cargarMaterias()//Se usa en maestros_materias
 {
     var padre=document.getElementById("listaMaterias");
@@ -182,6 +190,10 @@ function cargarAlumnosEnSelector()
 }); 
 }
 
+myApp.onPageInit("inicioAlumno",function(page){
+    inicializarSinBoton();
+})
+
 myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
     // Se ejecuta inmediatamente despues de llamar la pagina "maestros_asistencias", etiqueta contenida en "data-page"
     var calendario=myApp.calendar({
@@ -197,6 +209,9 @@ myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
 
 myApp.onPageBeforeAnimation("mapa_horario",function(page){
     cargarMapa();
+})
+myApp.onPageInit("horario",function(page){
+    cargarHorario();
 })
 
 myApp.onPageInit("alta_materia",function(page){
@@ -220,9 +235,12 @@ myApp.onPageAfterBack("buscar_materia",function(page){
     cargarDatosMateriaARegistrar();
     mainView.router.loadPage("alta_materia.html");
 })
+myApp.onPageAfterBack("alta_materia",function(page){
+    cargarHorario();
+    mainView.router.loadPage("horario.html");
+})
 
 myApp.onPageInit('maestros_materias',function(page){
-
     cargarMaterias();
 })
 
