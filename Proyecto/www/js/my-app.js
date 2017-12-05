@@ -195,6 +195,10 @@ myApp.onPageBeforeAnimation('maestros_asistencia', function (page) {
     cargarListaDeAlumnos();
 })
 
+myApp.onPageBeforeAnimation("mapa_horario",function(page){
+    cargarMapa();
+})
+
 myApp.onPageInit("alta_materia",function(page){
     guardarDatosMateria("-","-","-","-","-","-","-");
     cargarDatosMateriaARegistrar();
